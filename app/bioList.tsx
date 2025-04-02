@@ -9,7 +9,20 @@ import axios from 'axios';
 const BACKEND_URL = 'http://65.87.7.245';  
 
 const defaultPfp = require('@/assets/defPfp.png');  
-const bgPic = require('@/assets/dasauto.jpg'); 
+const bgPic01 = require('@/assets/bg/dasauto.jpg'); 
+const bgPic02 = require('@/assets/bg/villager.jpeg'); 
+const bgPic03 = require('@/assets/bg/squirrel.png'); 
+const bgPic04 = require('@/assets/bg/revimerch.png'); 
+const bgPic05 = require('@/assets/bg/gandalf.png');
+const bgPic06 = require('@/assets/bg/gumball.png');
+const bgPic07 = require('@/assets/bg/wizard.png');
+const bgPic08 = require('@/assets/bg/cheese.png');
+const bgPic09 = require('@/assets/bg/dogrocket.png');
+const bgPic10 = require('@/assets/bg/cophorse.png');
+const bgPic11 = require('@/assets/bg/iam.jpg');
+const bgPic12 = require('@/assets/bg/drhouse.png');
+const bgPic13 = require('@/assets/bg/salamicat.png');
+const bgPic14 = require('@/assets/bg/steve.png');
 
 const logOut = () => {
     AsyncStorage.removeItem("user");
@@ -31,6 +44,19 @@ const BioList = () => {
     const [user, setUserName] = useState<string | null>(null);
     const [bios, getBios] = useState<Bio[] | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(0); // Aktuális oldal indexe
+
+    const [randomImage, setRandomImage] = useState(null);
+
+    const generateBackground = () => {
+        const backgrounds = [bgPic01, bgPic02, bgPic03, bgPic04, bgPic05, bgPic06, bgPic07, bgPic08, bgPic09, bgPic10, bgPic11, bgPic12, bgPic13, bgPic14];
+        const randomIndex = Math.floor(Math.random() * backgrounds.length);
+        setRandomImage(backgrounds[randomIndex]);
+      };
+
+    useEffect(() => {
+        generateBackground();
+    }, []);
+    
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -86,6 +112,7 @@ const BioList = () => {
     const goToPreviousPage = () => {
         if (currentPage > 0) {
             setCurrentPage(currentPage - 1);
+            generateBackground();
         }
     };
 
@@ -93,6 +120,7 @@ const BioList = () => {
     const goToNextPage = () => {
         if (bios && currentPage < bios.length - 1) {
             setCurrentPage(currentPage + 1);
+            generateBackground();
         }
     };
 
@@ -105,7 +133,7 @@ const BioList = () => {
             </TouchableOpacity>
             <Text style={[globalStyles.text_2xl, globalStyles.text_zinc_100]}>Welcome {user}</Text>
             <ImageBackground 
-                source={bgPic}  
+                source={randomImage!}
                 style={[globalStyles.flex_col, globalStyles.flex_centered, globalStyles.gap_5, globalStyles.relative, { height: '60%', width: "80%" }]}
                 imageStyle={{ borderRadius: 20, width: '100%', height: '100%', zIndex: 1 }} 
             >
